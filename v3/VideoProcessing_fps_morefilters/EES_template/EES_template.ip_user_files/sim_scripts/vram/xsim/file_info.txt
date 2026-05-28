@@ -1,0 +1,3 @@
+vram_blk_mem_gen_0_0.v,verilog,xil_defaultlib,../../../bd/vram/ip/vram_blk_mem_gen_0_0/sim/vram_blk_mem_gen_0_0.v,incdir="../../../../../../../../Xilinx/2025.1/Vivado/data/rsb/busdef"
+vram.v,verilog,xil_defaultlib,../../../bd/vram/sim/vram.v,incdir="../../../../../../../../Xilinx/2025.1/Vivado/data/rsb/busdef"
+glbl.v,Verilog,xil_defaultlib,glbl.v

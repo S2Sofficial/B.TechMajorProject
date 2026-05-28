@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Sat May 23 15:27:22 2026
+# Process ID         : 4064
+# Current directory  : N:/Swaroop_Ka_kachra/Xilinx/MAJOR_PROJECT/VideoProcessing_fps_morefilters/EES_template/EES_template.runs/impl_1
+# Command line       : vivado.exe -log OV7670_top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source OV7670_top.tcl -notrace
+# Log file           : N:/Swaroop_Ka_kachra/Xilinx/MAJOR_PROJECT/VideoProcessing_fps_morefilters/EES_template/EES_template.runs/impl_1/OV7670_top.vdi
+# Journal file       : N:/Swaroop_Ka_kachra/Xilinx/MAJOR_PROJECT/VideoProcessing_fps_morefilters/EES_template/EES_template.runs/impl_1\vivado.jou
+# Running On         : KAALU
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26200
+# Processor Detail   : 13th Gen Intel(R) Core(TM) i5-13420H
+# CPU Frequency      : 2611 MHz
+# CPU Physical cores : 8
+# CPU Logical cores  : 12
+# Host memory        : 16852 MB
+# Swap memory        : 10205 MB
+# Total Virtual      : 27058 MB
+# Available Virtual  : 2934 MB
+#-----------------------------------------------------------
+source OV7670_top.tcl -notrace

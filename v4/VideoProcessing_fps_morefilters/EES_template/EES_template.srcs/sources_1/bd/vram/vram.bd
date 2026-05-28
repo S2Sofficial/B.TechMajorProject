@@ -1,0 +1,211 @@
+{
+  "design": {
+    "design_info": {
+      "boundary_crc": "0xE1023689517CCB66",
+      "device": "xc7a35tcpg236-1",
+      "name": "vram",
+      "rev_ctrl_bd_flag": "RevCtrlBdOff",
+      "synth_flow_mode": "Hierarchical",
+      "tool_version": "2025.1",
+      "validated": "true",
+      "gen_directory": "../../../../EES_template.gen/sources_1/bd/vram"
+    },
+    "design_tree": {
+      "blk_mem_gen_0": ""
+    },
+    "interface_ports": {
+      "BRAM_PORTA": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:bram:1.0",
+        "vlnv": "xilinx.com:interface:bram_rtl:1.0",
+        "parameters": {
+          "MASTER_TYPE": {
+            "value": "OTHER",
+            "value_src": "default"
+          },
+          "MEM_ECC": {
+            "value": "NONE",
+            "value_src": "default"
+          },
+          "MEM_SIZE": {
+            "value": "8192",
+            "value_src": "default"
+          },
+          "MEM_WIDTH": {
+            "value": "32",
+            "value_src": "default"
+          },
+          "READ_LATENCY": {
+            "value": "1",
+            "value_src": "default"
+          },
+          "READ_WRITE_MODE": {
+            "value": "READ_WRITE",
+            "value_src": "default"
+          }
+        },
+        "port_maps": {
+          "ADDR": {
+            "physical_name": "BRAM_PORTA_addr",
+            "direction": "I",
+            "left": "16",
+            "right": "0"
+          },
+          "CLK": {
+            "physical_name": "BRAM_PORTA_clk",
+            "direction": "I"
+          },
+          "DIN": {
+            "physical_name": "BRAM_PORTA_din",
+            "direction": "I",
+            "left": "11",
+            "right": "0"
+          },
+          "EN": {
+            "physical_name": "BRAM_PORTA_en",
+            "direction": "I"
+          },
+          "WE": {
+            "physical_name": "BRAM_PORTA_we",
+            "direction": "I",
+            "left": "0",
+            "right": "0"
+          }
+        }
+      },
+      "BRAM_PORTB": {
+        "mode": "Slave",
+        "vlnv_bus_definition": "xilinx.com:interface:bram:1.0",
+        "vlnv": "xilinx.com:interface:bram_rtl:1.0",
+        "parameters": {
+          "MASTER_TYPE": {
+            "value": "OTHER",
+            "value_src": "default"
+          },
+          "MEM_ECC": {
+            "value": "NONE",
+            "value_src": "default"
+          },
+          "MEM_SIZE": {
+            "value": "8192",
+            "value_src": "default"
+          },
+          "MEM_WIDTH": {
+            "value": "32",
+            "value_src": "default"
+          },
+          "READ_LATENCY": {
+            "value": "1",
+            "value_src": "default"
+          },
+          "READ_WRITE_MODE": {
+            "value": "READ_WRITE",
+            "value_src": "default"
+          }
+        },
+        "port_maps": {
+          "ADDR": {
+            "physical_name": "BRAM_PORTB_addr",
+            "direction": "I",
+            "left": "16",
+            "right": "0"
+          },
+          "CLK": {
+            "physical_name": "BRAM_PORTB_clk",
+            "direction": "I"
+          },
+          "DOUT": {
+            "physical_name": "BRAM_PORTB_dout",
+            "direction": "O",
+            "left": "11",
+            "right": "0"
+          },
+          "EN": {
+            "physical_name": "BRAM_PORTB_en",
+            "direction": "I"
+          }
+        }
+      }
+    },
+    "components": {
+      "blk_mem_gen_0": {
+        "vlnv": "xilinx.com:ip:blk_mem_gen:8.4",
+        "ip_revision": "11",
+        "xci_name": "vram_blk_mem_gen_0_0",
+        "xci_path": "ip\\vram_blk_mem_gen_0_0\\vram_blk_mem_gen_0_0.xci",
+        "inst_hier_path": "blk_mem_gen_0",
+        "has_run_ip_tcl": "true",
+        "parameters": {
+          "Coe_File": {
+            "value": "../../../../bmp.coe"
+          },
+          "Disable_Collision_Warnings": {
+            "value": "false"
+          },
+          "Enable_32bit_Address": {
+            "value": "false"
+          },
+          "Enable_B": {
+            "value": "Use_ENB_Pin"
+          },
+          "Fill_Remaining_Memory_Locations": {
+            "value": "false"
+          },
+          "Load_Init_File": {
+            "value": "true"
+          },
+          "Memory_Type": {
+            "value": "Simple_Dual_Port_RAM"
+          },
+          "Operating_Mode_A": {
+            "value": "NO_CHANGE"
+          },
+          "Port_B_Clock": {
+            "value": "100"
+          },
+          "Port_B_Enable_Rate": {
+            "value": "100"
+          },
+          "Read_Width_B": {
+            "value": "12"
+          },
+          "Register_PortB_Output_of_Memory_Core": {
+            "value": "false"
+          },
+          "Register_PortB_Output_of_Memory_Primitives": {
+            "value": "true"
+          },
+          "Use_Byte_Write_Enable": {
+            "value": "false"
+          },
+          "Write_Depth_A": {
+            "value": "76800"
+          },
+          "Write_Width_A": {
+            "value": "12"
+          },
+          "Write_Width_B": {
+            "value": "12"
+          },
+          "use_bram_block": {
+            "value": "Stand_Alone"
+          }
+        }
+      }
+    },
+    "interface_nets": {
+      "BRAM_PORTA_1": {
+        "interface_ports": [
+          "blk_mem_gen_0/BRAM_PORTA",
+          "BRAM_PORTA"
+        ]
+      },
+      "BRAM_PORTB_1": {
+        "interface_ports": [
+          "blk_mem_gen_0/BRAM_PORTB",
+          "BRAM_PORTB"
+        ]
+      }
+    }
+  }
+}

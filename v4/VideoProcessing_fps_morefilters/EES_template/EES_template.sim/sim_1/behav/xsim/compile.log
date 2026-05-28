@@ -1,0 +1,12 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "N:/Swaroop_Ka_kachra/Xilinx/MAJOR_PROJECT/VideoProcessing_fps_morefilters/EES_template/EES_template.ip_user_files/bd/vram/ip/vram_blk_mem_gen_0_0/sim/vram_blk_mem_gen_0_0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vram_blk_mem_gen_0_0
+INFO: [VRFC 10-2263] Analyzing Verilog file "N:/Swaroop_Ka_kachra/Xilinx/MAJOR_PROJECT/VideoProcessing_fps_morefilters/EES_template/EES_template.ip_user_files/bd/vram/sim/vram.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vram
+INFO: [VRFC 10-2263] Analyzing Verilog file "N:/Swaroop_Ka_kachra/Xilinx/MAJOR_PROJECT/VideoProcessing_fps_morefilters/EES_template/EES_template.srcs/sources_1/new/VGA.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vga
+INFO: [VRFC 10-2263] Analyzing Verilog file "N:/Swaroop_Ka_kachra/Xilinx/MAJOR_PROJECT/VideoProcessing_fps_morefilters/EES_template/EES_template.gen/sources_1/bd/vram/hdl/vram_wrapper.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module vram_wrapper
+INFO: [VRFC 10-2263] Analyzing Verilog file "N:/Swaroop_Ka_kachra/Xilinx/MAJOR_PROJECT/VideoProcessing_fps_morefilters/EES_template/EES_template.srcs/sim_1/imports/new/RAM_test.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module RAM_test
+INFO: [VRFC 10-2263] Analyzing Verilog file "N:/Swaroop_Ka_kachra/Xilinx/MAJOR_PROJECT/VideoProcessing_fps_morefilters/EES_template/EES_template.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl

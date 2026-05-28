@@ -1,0 +1,99 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2025.1 (win64) Build 6140274 Thu May 22 00:12:29 MDT 2025
+| Date         : Sat May 23 15:28:49 2026
+| Host         : KAALU running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file OV7670_top_control_sets_placed.rpt
+| Design       : OV7670_top
+| Device       : xc7a35t
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    21 |
+|    Minimum number of control sets                        |    21 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    78 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    21 |
+| >= 0 to < 4        |     3 |
+| >= 4 to < 6        |     2 |
+| >= 6 to < 8        |     1 |
+| >= 8 to < 10       |     3 |
+| >= 10 to < 12      |     4 |
+| >= 12 to < 14      |     3 |
+| >= 14 to < 16      |     0 |
+| >= 16              |     5 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |              21 |           10 |
+| No           | No                    | Yes                    |              55 |           22 |
+| No           | Yes                   | No                     |              32 |           13 |
+| Yes          | No                    | No                     |              38 |           21 |
+| Yes          | No                    | Yes                    |              36 |           12 |
+| Yes          | Yes                   | No                     |              60 |           22 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-----------------------------------------------------+-------------------------------------------+--------------------------------------+------------------+----------------+--------------+
+|                     Clock Signal                    |               Enable Signal               |           Set/Reset Signal           | Slice Load Count | Bel Load Count | Bels / Slice |
++-----------------------------------------------------+-------------------------------------------+--------------------------------------+------------------+----------------+--------------+
+|  sys_clk_pin_IBUF                                   |                                           |                                      |                1 |              1 |         1.00 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_100 | u_ov7670_init/u_I2C_Controller/i2c_negclk | rst                                  |                1 |              1 |         1.00 |
+|  led_pin_OBUF_BUFG[1]                               |                                           |                                      |                1 |              2 |         2.00 |
+|  led_pin_OBUF_BUFG[1]                               | u_ov7670_capture/address[16]_i_1_n_0      | led_pin_OBUF[2]                      |                2 |              4 |         2.00 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_100 | u_ov7670_init/u_I2C_Controller/E[0]       | rst                                  |                1 |              5 |         5.00 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_100 | u_ov7670_init/u_I2C_Controller/SD_COUNTER | rst                                  |                3 |              6 |         2.00 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_100 | u_ov7670_init/LUT_INDEX[0]_i_1_n_0        | rst                                  |                3 |              8 |         2.67 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_100 | u_fps_counter/second_tick_reg_n_0         | rst                                  |                2 |              8 |         4.00 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_100 | u_fps_counter/frame_cnt[7]_i_1_n_0        | rst                                  |                2 |              8 |         4.00 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_25  |                                           | u_vga/p_0_in                         |                3 |             10 |         3.33 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_25  |                                           | u_vga/SR[0]                          |                4 |             10 |         2.50 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_25  | u_vga/p_0_in                              |                                      |                5 |             10 |         2.00 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_25  | u_vga/E[0]                                | u_vga/v_sync_d_reg[0]                |                6 |             10 |         1.67 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_25  |                                           | u_vga/blank                          |                6 |             12 |         2.00 |
+|  led_pin_OBUF_BUFG[1]                               | u_ov7670_capture/dout[15]_i_1_n_0         |                                      |                7 |             12 |         1.71 |
+|  led_pin_OBUF_BUFG[1]                               | u_ov7670_capture/p_0_in                   | u_ov7670_capture/address[15]_i_1_n_0 |                5 |             13 |         2.60 |
+|  sys_clk_pin_IBUF                                   | reset_cnt[0]_i_2_n_0                      | clear                                |                4 |             16 |         4.00 |
+|  led_pin_OBUF_BUFG[1]                               | u_ov7670_capture/d_latch[15]_i_1_n_0      |                                      |                9 |             16 |         1.78 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_25  | u_vga/sel                                 | u_vga/clear                          |                5 |             17 |         3.40 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_25  |                                           |                                      |                8 |             18 |         2.25 |
+|  u_clk_gen_wrapper/clk_gen_i/clk_wiz_0/inst/clk_100 |                                           | rst                                  |               22 |             55 |         2.50 |
++-----------------------------------------------------+-------------------------------------------+--------------------------------------+------------------+----------------+--------------+
+
+

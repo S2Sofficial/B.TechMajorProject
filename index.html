@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Real-Time Video Processing Pipeline - FPGA Final Year Project</title>
+<style>
+:root{
+  --bg:#fbfbfa;
+  --surface:#ffffff;
+  --surface2:#f7f2ea;
+  --line:#e3ddd4;
+  --line2:#c9c1b5;
+  --text:#1f1a16;
+  --muted:#5f564d;
+  --hint:#85796a;
+  --navy:#1f1a16;
+  --navy2:#3a342f;
+  --gold:#6f6457;
+  --gold2:#8a7b68;
+  --green:#3b6c52;
+  --font-display:'Book Antiqua','Palatino Linotype',Palatino,Georgia,serif;
+  --font-body:Georgia,'Times New Roman',serif;
+  --radius:22px;
+  --radius-sm:14px;
+  --shadow:0 22px 55px rgba(35,41,54,.08);
+  --shadow-soft:0 10px 24px rgba(35,41,54,.06);
+  --transition:220ms ease;
+  --nav-h:78px;
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{
+  scroll-behavior:smooth;
+  overflow-x:hidden;
+}
+body{
+  margin:0;
+  overflow-x:hidden;
+  background:
+    radial-gradient(circle at top left, rgba(35,35,35,.04), transparent 32%),
+    radial-gradient(circle at 82% 12%, rgba(120,120,120,.05), transparent 24%),
+    linear-gradient(180deg, #ffffff 0%, #faf9f6 100%);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.72;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.18), rgba(255,255,255,.18)), radial-gradient(rgba(35,57,93,.035) 1px, transparent 1px);
+  background-size:auto, 18px 18px;
+  opacity:.28;
+}
+img,video,svg{display:block;max-width:100%}
+button,input,textarea,select{font:inherit}
+a{color:inherit;text-decoration:none}
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:40;
+  backdrop-filter:blur(14px);
+  background:rgba(255,255,255,.92);
+  border-bottom:1px solid rgba(227,221,212,.9);
+}
+.header-inner{
+  max-width:var(--maxw);
+  margin:0 auto;
+  min-height:var(--nav-h);
+  padding:0 28px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:18px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-width:0;
+}
+.brand-mark{
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  color:#fff;
+  background:linear-gradient(145deg, var(--navy), var(--gold));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25), 0 10px 25px rgba(35,57,93,.18);
+  font-family:var(--font-display);
+  font-size:1.05rem;
+  letter-spacing:.04em;
+}
+.brand-text{line-height:1.1}
+.brand-text strong{
+  display:block;
+  font-family:var(--font-display);
+  font-size:1rem;
+  font-weight:700;
+  letter-spacing:.02em;
+}
+.brand-text span{
+  display:block;
+  margin-top:.2rem;
+  font-size:.74rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.nav{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:8px;
+}
+.nav a{
+  font-size:.82rem;
+  letter-spacing:.04em;
+  color:var(--muted);
+  padding:9px 12px;
+  border-radius:999px;
+  transition:background var(--transition), color var(--transition), transform var(--transition);
+}
+.nav a:hover,
+.nav a.active{
+  background:rgba(35,35,35,.06);
+  color:#111;
+}
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.header-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 20px;
+  border-radius:999px;
+  border:1px solid transparent;
+  font-size:.84rem;
+  transition:transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+.header-btn:hover{transform:translateY(-1px)}
+.header-btn.ghost{
+  background:#fff;
+  border-color:var(--line);
+  color:var(--text);
+  box-shadow:var(--shadow-soft);
+}
+.header-btn.solid{
+  background:#1f1f1f;
+  color:#fff;
+  box-shadow:0 14px 28px rgba(0,0,0,.16);
+}
+
+.shell{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:0 28px 0;
+}
+.hero{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:52px 0 58px;
+}
+.hero::before,
+.hero::after{
+  content:'';
+  position:absolute;
+  inset:auto;
+  pointer-events:none;
+}
+.hero::before{
+  left:-10%;
+  top:18%;
+  width:32%;
+  height:60%;
+  background:linear-gradient(135deg, rgba(25,25,25,.03), rgba(25,25,25,0));
+  filter:blur(18px);
+  transform:skewX(-12deg);
+}
+.hero::after{
+  right:-10%;
+  top:16%;
+  width:32%;
+  height:62%;
+  background:linear-gradient(225deg, rgba(25,25,25,.03), rgba(25,25,25,0));
+  filter:blur(18px);
+  transform:skewX(12deg);
+}
+.hero-copy{
+  position:relative;
+  z-index:1;
+  width:min(100%, 1100px);
+  pointer-events:auto;
+}
+.hero-copy,
+.hero-figure{
+  animation:rise .8s ease both;
+}
+.hero-copy{
+  text-align:center;
+  padding:54px 58px 44px;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+}
+.kicker{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:rgba(35,57,93,.08);
+  color:var(--navy);
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-size:.7rem;
+  font-weight:700;
+}
+.hero-copy h1{
+  margin:14px auto 16px;
+  font-family: 'Book Antiqua', Palatino, Georgia, serif;
+  font-size:clamp(2.4rem, 5.6vw, 4.8rem);
+  line-height:1.02;
+  letter-spacing:0;
+  max-width:60ch;
+  text-wrap:balance;
+}
+.hero-copy h1 .accent{color:var(--navy)}
+.hero-copy p{
+  margin:10px auto 0;
+  font-size:1.02rem;
+  color:var(--muted);
+  max-width:46ch;
+}
+.hero-actions{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  margin-top:30px;
+  flex-wrap:wrap;
+}
+.hero-actions .header-btn{padding:14px 22px;min-width:150px;justify-content:center}
+.zoomable{
+  width:100%;
+  border-radius:16px;
+  cursor:zoom-in;
+  box-shadow:0 22px 50px rgba(25,24,20,.15);
+  transition:transform var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+.zoomable:hover{
+  transform:translateY(-2px);
+  box-shadow:0 28px 65px rgba(25,24,20,.18);
+  filter:saturate(1.02);
+}
+.figure-caption{
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:.86rem;
+}
+.figure-caption strong{
+  display:block;
+  color:var(--navy);
+  font-family:var(--font-display);
+  font-size:.92rem;
+  margin-bottom:4px;
+}
+
+.section{
+  margin-top:16px;
+  padding:24px;
+  background:var(--surface);
+  border:1px solid rgba(191,174,145,.7);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-soft);
+}
+.section:last-of-type{margin-bottom:0}
+.section-head{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:22px;
+}
+.section-tag{
+  display:inline-block;
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  font-size:.7rem;
+  font-weight:700;
+  margin-bottom:6px;
+}
+.section-head h2{
+  margin:0;
+  font-family:var(--font-display);
+  font-size:1.7rem;
+  line-height:1.2;
+}
+.section-head p,
+.section-lead{
+  margin:0;
+  color:var(--muted);
+  max-width:70ch;
+}
+.section-lead{font-size:.98rem}
+
+.two-col{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:20px;
+  align-items:start;
+}
+.paper-card,
+.note-card,
+.result-card,
+.video-card{
+  background:var(--surface2);
+  border:1px solid var(--line);
+  border-radius:20px;
+}
+.paper-card{padding:20px}
+.note-card{padding:18px}
+.paper-card h3,
+.note-card h3,
+.video-card h3{
+  margin:0 0 8px;
+  font-family:var(--font-display);
+  font-size:1.02rem;
+  color:var(--navy);
+}
+.paper-card p,
+.note-card p{margin:0;color:var(--muted)}
+.bullet-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+.bullet{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px 15px;
+}
+.bullet b{
+  display:block;
+  font-family:var(--font-display);
+  color:var(--navy);
+  margin-bottom:6px;
+}
+.bullet span{color:var(--muted);font-size:.84rem;display:block}
+
+.method-grid{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0,1fr));
+  gap:12px;
+}
+.step{
+  background:linear-gradient(180deg, #fff, #f7f2e9);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px 14px;
+}
+.step-num{
+  display:inline-flex;
+  width:30px;
+  height:30px;
+  align-items:center;
+  justify-content:center;
+  border-radius:10px;
+  background:rgba(35,57,93,.09);
+  color:var(--navy);
+  font-family:var(--font-display);
+  margin-bottom:10px;
+}
+.step h4{
+  margin:0 0 6px;
+  font-family:var(--font-display);
+  color:var(--text);
+  font-size:.98rem;
+}
+.step p{margin:0;color:var(--muted);font-size:.84rem}
+
+.architecture-grid{
+  display:grid;
+  grid-template-columns:1.12fr .88fr;
+  gap:20px;
+  align-items:start;
+}
+.diagram-btn{
+  all:unset;
+  display:block;
+  cursor:zoom-in;
+}
+.diagram-btn img{
+  border-radius:18px;
+  width:100%;
+  box-shadow:0 18px 40px rgba(25,24,20,.12);
+}
+.mini-list{
+  display:grid;
+  gap:12px;
+}
+.mini-item{
+  padding:16px 16px 15px;
+  border-radius:18px;
+  background:#fff;
+  border:1px solid var(--line);
+}
+.mini-item strong{
+  display:block;
+  margin-bottom:4px;
+  font-family:var(--font-display);
+  font-size:1rem;
+  color:var(--navy);
+}
+.mini-item span{
+  display:block;
+  color:var(--muted);
+  font-size:.86rem;
+}
+
+.results-head{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:18px;
+  align-items:end;
+  margin-bottom:18px;
+}
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0,1fr));
+  gap:12px;
+  margin:16px 0 22px;
+}
+.metric{
+  background:linear-gradient(180deg, #fff, #faf7f1);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:15px 14px;
+}
+.metric b{
+  display:block;
+  font-family:var(--font-display);
+  font-size:1.15rem;
+  color:var(--navy);
+  margin-bottom:4px;
+}
+.metric span{display:block;color:var(--muted);font-size:.8rem}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0,1fr));
+  gap:12px;
+}
+.thumb{
+  all:unset;
+  cursor:zoom-in;
+  display:block;
+  border-radius:18px;
+  overflow:hidden;
+  border:1px solid var(--line);
+  background:#fff;
+  transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.thumb:hover{
+  transform:translateY(-2px);
+  border-color:rgba(35,57,93,.28);
+  box-shadow:0 16px 32px rgba(25,24,20,.10);
+}
+.thumb img{
+  width:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
+}
+.thumb span{
+  display:block;
+  padding:10px 12px;
+  font-size:.78rem;
+  color:var(--muted);
+  background:var(--surface2);
+  border-top:1px solid var(--line);
+}
+
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+.video-card video{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  background:#111;
+  border-bottom:1px solid var(--line);
+}
+.video-copy{padding:14px 15px 15px}
+.video-copy p{margin:0;color:var(--muted);font-size:.85rem}
+
+.closing-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.closing-grid .note-card ul{
+  margin:12px 0 0;
+  padding:0;
+  list-style:none;
+  display:grid;
+  gap:8px;
+}
+.closing-grid .note-card li{
+  display:flex;
+  gap:10px;
+  color:var(--muted);
+  font-size:.88rem;
+}
+.closing-grid .note-card li::before{
+  content:'•';
+  color:var(--gold);
+  flex:none;
+}
+
+.footer{
+  padding:14px 2px 0;
+  color:var(--muted);
+  font-size:.85rem;
+}
+.footer-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+  border-top:1px solid rgba(191,174,145,.7);
+  padding-top:18px;
+}
+.footer strong{display:block;color:var(--navy);font-family:var(--font-display);font-size:.98rem;margin-bottom:4px}
+.footer .small{display:block;max-width:72ch}
+
+.lightbox{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  background:rgba(28,24,18,.76);
+  backdrop-filter:blur(10px);
+  z-index:100;
+}
+.lightbox.active{display:flex}
+.lightbox-panel{
+  position:relative;
+  max-width:min(96vw,1300px);
+  max-height:92vh;
+  padding:16px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:0 40px 120px rgba(0,0,0,.25);
+}
+.lightbox-panel img{
+  display:block;
+  max-width:100%;
+  max-height:calc(92vh - 32px);
+  object-fit:contain;
+  border-radius:16px;
+}
+.lightbox-close{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background:#fff;
+  color:var(--text);
+  cursor:pointer;
+  font-size:1.1rem;
+}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}
+}
+@media (max-width: 1040px){
+  .hero,
+  .two-col,
+  .architecture-grid,
+  .results-head,
+  .closing-grid{grid-template-columns:1fr}
+  .method-grid{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .gallery{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .video-grid{grid-template-columns:1fr}
+  .metrics{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .header-inner{grid-template-columns:auto 1fr}
+  .header-actions{grid-column:1 / -1; justify-content:flex-end; padding-bottom:12px}
+  .hero-copy h1{
+    font-size:clamp(2.6rem, 6.4vw, 5.2rem);
+    max-width:48ch;
+    line-height:1.0;
+  }
+  .hero{padding:36px 0 38px;}
+  .shell{padding-left:20px;padding-right:20px;padding-bottom:0}
+  .hero-actions .header-btn{min-width:140px;padding:12px 18px}
+}
+@media (max-width: 700px){
+  .header-inner,
+  .shell{padding-left:18px;padding-right:18px;padding-bottom:0}
+  .nav{display:none}
+  .header-actions{display:none}
+  .hero-copy,
+  .section{padding:22px}
+  .hero-copy{padding:30px 22px 32px}
+  .hero{padding:24px 0 26px}
+  .hero-copy h1{font-size:clamp(1.8rem, 9.5vw, 3.2rem); max-width:40ch; line-height:1.08}
+  .bullet-grid,
+  .method-grid,
+  .gallery,
+  .metrics{grid-template-columns:1fr}
+}
+
+/* collapse header if it's empty to avoid large sticky gap */
+header.site-header:empty{display:none}
+
+/* small visual tweaks */
+.hero-actions .header-btn{white-space:nowrap}
+.shell{transition:padding .18s var(--transition)}
+.footer{padding-bottom:0}
+.footer-top{padding-bottom:0}
+
+@media (max-width: 700px){
+  .hero-copy h1{letter-spacing:-0.02em}
+  .hero-copy p{font-size:.95rem;max-width:34ch}
+  .section{padding:18px}
+  .section-head{display:block;margin-bottom:14px}
+  .section-head h2{font-size:1.35rem}
+  .section-lead{font-size:.92rem}
+  .two-col,
+  .architecture-grid,
+  .results-head,
+  .closing-grid{gap:14px}
+  .paper-card,
+  .note-card{padding:16px}
+  .bullet-grid,
+  .method-grid,
+  .gallery,
+  .metrics{gap:10px}
+  .metric,
+  .step,
+  .mini-item{padding:12px}
+  .video-grid{gap:10px;margin-top:12px}
+  .video-copy{padding:12px}
+  .video-card video{aspect-ratio:16/10}
+  .footer{padding-top:10px}
+  .footer-top{gap:12px}
+}
+</style>
+</head>
+<body>
+<header class="site-header"></header>
+
+<main class="shell">
+  <section class="hero" id="top">
+    <div class="hero-copy">
+      <div class="kicker">Bachelor of Technology Project</div>
+      <h1>
+        Real-Time Video Processing<br />
+        <span class="accent">Pipeline</span><br />
+        for FPGA Image Filtering
+      </h1>
+      <p>
+        A restrained, scholarly presentation of a hardware-only image-processing pipeline built on a Basys3 Artix-7 FPGA. The system captures camera input, stores frames in dual-port BRAM, applies eight filters in real time, and drives a VGA display without software intervention.
+      </p>
+      <div class="hero-actions">
+        <a class="header-btn ghost" href="#architecture">View Architecture</a>
+        <a class="header-btn solid" href="#results">View Results</a>
+        <a class="header-btn ghost" href="https://github.com/s2soffcial/B.TechMajorProject/tree/main/src" target="_blank" rel="noopener noreferrer">View Code</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="abstract">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">Abstract</div>
+        <h2>Concise Research Summary</h2>
+      </div>
+      <p class="section-lead">
+        The project demonstrates a real-time video-processing architecture implemented entirely in hardware. It is suitable for a final-year presentation because the design story is clear, the results are measurable, and the visual output is reproducible.
+      </p>
+    </div>
+
+    <div class="two-col">
+      <div class="paper-card">
+        <h3>Project Statement</h3>
+        <p>
+          This work implements a complete FPGA-based pipeline for capturing live camera data, transforming the pixel stream through a set of eight hardware filters, and presenting the processed image on a standard VGA monitor. The design uses the OV7670 camera sensor, pixel formatting logic, dual-port frame buffering, combinational filter circuits, and VGA timing generation. The output is evaluated through filter photographs, board references, and demonstration videos.
+        </p>
+        <div class="bullet-grid">
+          <div class="bullet">
+            <b>Acquisition</b>
+            <span>OV7670 configuration and RGB565 capture through the camera interface.</span>
+          </div>
+          <div class="bullet">
+            <b>Processing</b>
+            <span>Eight real-time filters implemented directly in hardware.</span>
+          </div>
+          <div class="bullet">
+            <b>Display</b>
+            <span>VGA output with stable timing and on-screen frame delivery.</span>
+          </div>
+        </div>
+      </div>
+      <div class="note-card">
+        <h3>Key Observations</h3>
+        <p>
+          The design is intentionally simple and scholarly in presentation. The focus is on signal flow, timing discipline, and output quality rather than decorative styling.
+        </p>
+        <ul style="margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px;">
+          <li style="color:var(--muted);font-size:.9rem;display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--gold);flex:none;">&#8226;</span>All filters are applied in real time without software intervention.</li>
+          <li style="color:var(--muted);font-size:.9rem;display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--gold);flex:none;">&#8226;</span>The implementation is suitable for a final-year degree demonstration.</li>
+          <li style="color:var(--muted);font-size:.9rem;display:flex;gap:10px;align-items:flex-start;"><span style="color:var(--gold);flex:none;">&#8226;</span>Photo and video evidence are both included for the result section.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="methodology">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">Methodology</div>
+        <h2>Hardware Flow</h2>
+      </div>
+      <p class="section-lead">
+        The design sequence is presented as a compact pipeline rather than as a crowded block of text.
+      </p>
+    </div>
+
+    <div class="method-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Camera setup</h4>
+        <p>The OV7670 sensor is configured through SCCB so that the pixel stream is stable and synchronous.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Pixel capture</h4>
+        <p>RGB565 data is sampled and converted into a usable internal format for downstream logic.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Frame buffering</h4>
+        <p>Dual-port BRAM stores and forwards image data while keeping the read and write domains separate.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Filter bank</h4>
+        <p>Eight combinational filters evaluate the same pixel stream and deliver distinct visual outcomes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <h4>VGA output</h4>
+        <p>The selected result is routed to a 640x480 display with consistent timing and frame stability.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="architecture">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">System Architecture</div>
+        <h2>Block-Level Organization</h2>
+      </div>
+      <p class="section-lead">
+        The pipeline stages diagram is enlarged here so it reads like a figure in a research report.
+      </p>
+    </div>
+
+    <div class="architecture-grid">
+      <div class="paper-card">
+        <button class="diagram-btn" type="button" onclick="openLightbox('RESULTS/BLOCK DIAGRAM FINAL.jpg','Pipeline stages diagram')" aria-label="Open pipeline stages diagram">
+          <img src="RESULTS/BLOCK DIAGRAM FINAL.jpg" alt="Pipeline stages diagram" class="zoomable" />
+        </button>
+        <p style="margin:14px 0 0;color:var(--muted);font-size:.88rem;">
+          Click the figure to open a larger view.
+        </p>
+      </div>
+      <div class="mini-list">
+        <div class="mini-item">
+          <strong>Camera interface</strong>
+          <span>Handles sensor communication, clocking, and synchronized sample capture.</span>
+        </div>
+        <div class="mini-item">
+          <strong>Memory subsystem</strong>
+          <span>Uses dual-port BRAM to separate capture and display activity.</span>
+        </div>
+        <div class="mini-item">
+          <strong>Filter stage</strong>
+          <span>Applies the selected visual transformation entirely in hardware.</span>
+        </div>
+        <div class="mini-item">
+          <strong>VGA generation</strong>
+          <span>Converts the processed frame into a stable analog-style display stream.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="results">
+    <div class="results-head">
+      <div>
+        <div class="section-tag">Results</div>
+        <h2>Photographic Evidence of the Filter Bank</h2>
+      </div>
+      <p class="section-lead">
+        The output is shown as a restrained set of filter photographs so the section remains readable and suitable for technical review.
+      </p>
+    </div>
+
+    <div class="metrics">
+      <div class="metric"><b>30-32 FPS</b><span>Measured frame rate under normal operation.</span></div>
+      <div class="metric"><b>1.37%</b><span>LUT usage reported in the current implementation.</span></div>
+      <div class="metric"><b>0.193 W</b><span>Approximate measured power draw for the board.</span></div>
+      <div class="metric"><b>25 MHz</b><span>VGA timing domain used by the display controller.</span></div>
+    </div>
+
+    <div class="gallery">
+      <button class="thumb" type="button" onclick="openLightbox('RESULTS/rgb444.jpg','RGB 444')"><img src="RESULTS/rgb444.jpg" alt="RGB 444"><span>RGB 444</span></button>
+      <button class="thumb" type="button" onclick="openLightbox('RESULTS/red.jpg','Red channel')"><img src="RESULTS/red.jpg" alt="Red channel"><span>Red Channel</span></button>
+      <button class="thumb" type="button" onclick="openLightbox('RESULTS/green.jpg','Green channel')"><img src="RESULTS/green.jpg" alt="Green channel"><span>Green Channel</span></button>
+      <button class="thumb" type="button" onclick="openLightbox('RESULTS/blue.jpg','Blue channel')"><img src="RESULTS/blue.jpg" alt="Blue channel"><span>Blue Channel</span></button>
+      <button class="thumb" type="button" onclick="openLightbox('RESULTS/grayscale.jpg','Grayscale')"><img src="RESULTS/grayscale.jpg" alt="Grayscale"><span>Grayscale</span></button>
+      <button class="thumb" type="button" onclick="openLightbox('RESULTS/sepia.jpg','Sepia tone')"><img src="RESULTS/sepia.jpg" alt="Sepia tone"><span>Sepia Tone</span></button>
+      <button class="thumb" type="button" onclick="openLightbox('RESULTS/invert.jpg','Invert colors')"><img src="RESULTS/invert.jpg" alt="Invert colors"><span>Invert Colors</span></button>
+      <button class="thumb" type="button" onclick="openLightbox('RESULTS/posterize.jpg','Posterize')"><img src="RESULTS/posterize.jpg" alt="Posterize"><span>Posterize</span></button>
+    </div>
+  </section>
+
+  <section class="section" id="video">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">Video Evidence</div>
+        <h2>Recorded Demonstration Clips</h2>
+      </div>
+      <p class="section-lead">
+        The videos are embedded directly so the project evidence includes motion, not only still frames.
+      </p>
+    </div>
+
+    <div class="video-grid">
+      <div class="video-card">
+        <video controls preload="metadata">
+          <source src="RESULTS/Videos/ProjectShowcaseDemo_1.mp4" type="video/mp4" />
+        </video>
+        <div class="video-copy">
+          <h3>Live Camera Feed Processing</h3>
+          <p>Demonstrates the pipeline handling the incoming frame stream and producing a processed result in real time.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls preload="metadata">
+          <source src="RESULTS/Videos/ProjectShowcaseDemo_2.mp4" type="video/mp4" />
+        </video>
+        <div class="video-copy">
+          <h3>Filter Bank Output</h3>
+          <p>Shows the visual result from the hardware filter selection stage during playback.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="conclusion">
+    <div class="section-head">
+      <div>
+        <div class="section-tag">Conclusion</div>
+        <h2>Final Summary</h2>
+      </div>
+      <p class="section-lead">
+        The presentation closes with a concise account of what the design proves and where it can be extended.
+      </p>
+    </div>
+
+    <div class="closing-grid">
+      <div class="note-card">
+        <h3>Outcome</h3>
+        <p>
+          The project confirms that a compact FPGA system can acquire camera input, process it with multiple image filters, and present the result on a VGA monitor in real time. The result set and demonstration clips together provide a complete project showcase.
+        </p>
+      </div>
+      <div class="note-card">
+        <h3>Possible Extension</h3>
+        <ul>
+          <li>Convert the prototype into a custom silicon implementation.</li>
+          <li>Extend the pipeline to higher resolutions and stronger timing margins.</li>
+          <li>Add controlled capture of more scenes for comparative evaluation.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="contact">
+    <div class="footer-top">
+      <div>
+        <strong>Real-Time Video Processing Pipeline</strong>
+        <span class="small">Final year Major Project</span>
+      </div>
+      <div>
+        <strong>Prepared by</strong>
+        <span class="small">Swaroop Kumar Yadav, B.Tech ECE (2022-2026)</span>
+      </div>
+      <div>
+        <strong>Supervision</strong>
+        <span class="small">Dr. Yogendra Pratap Pundir, H.N.B. Garhwal University</span>
+      </div>
+    </div>
+  </footer>
+</main>
+
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <div class="lightbox-panel" role="dialog" aria-modal="true" aria-label="Image preview">
+    <button class="lightbox-close" type="button" onclick="closeLightbox()" aria-label="Close preview">&times;</button>
+    <img id="lightboxImage" alt="Preview image" />
+  </div>
+</div>
+
+<script>
+function openLightbox(src, alt){
+  const box=document.getElementById('lightbox');
+  const image=document.getElementById('lightboxImage');
+  image.src=src;
+  image.alt=alt || 'Preview image';
+  box.classList.add('active');
+  box.setAttribute('aria-hidden','false');
+}
+
+function closeLightbox(){
+  const box=document.getElementById('lightbox');
+  const image=document.getElementById('lightboxImage');
+  box.classList.remove('active');
+  box.setAttribute('aria-hidden','true');
+  image.src='';
+}
+
+window.addEventListener('keydown',function(e){
+  if(e.key==='Escape') closeLightbox();
+});
+
+document.getElementById('lightbox').addEventListener('click',function(e){
+  if(e.target.id==='lightbox') closeLightbox();
+});
+
+const yearNode=document.getElementById('year');
+if(yearNode) yearNode.textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
