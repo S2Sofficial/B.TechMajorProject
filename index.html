@@ -1116,14 +1116,16 @@
             <div class="section-body">
               <div class="two-column-text">
                 <p>
-                  This repository implements a complete FPGA-based pipeline for acquiring live camera data from the
-                  OV7670, transforming the pixel stream through a set of eight hardware filters, and presenting the
-                  processed image on a standard VGA monitor.
+                  This project presents the design and implementation of an FPGA-based real-time video processing pipeline using the OV7670 CMOS camera and the Basys 3 Artix-7 FPGA platform. The proposed system captures live video, buffers image data in dual-port Block RAM (BRAM), performs real-time image processing using lightweight combinational logic, and displays the processed output on a VGA monitor. To optimize memory utilization, the captured RGB565 pixel data is converted to RGB444 format before storage while maintaining satisfactory visual quality.
                 </p>
                 <p>
-                  The design emphasizes clear signal flow, timing discipline, and reproducible visual results suitable
-                  for a final-year project demonstration. The system captures RGB565 camera input, stores frames in
-                  dual-port BRAM, applies filter logic in real time, and outputs a stable 640 x 480 VGA signal.
+                  The architecture integrates camera configuration through the SCCB interface, frame buffering, VGA timing generation, and an eight-mode image filter bank controlled via a three-switch binary interface. The implemented filters include grayscale, color isolation, invert, sepia, posterize, and other real-time image enhancement modes. Since all filters are realized using purely combinational hardware, the system introduces negligible processing latency and supports seamless runtime filter switching without requiring FPGA reconfiguration.
+                </p>
+                <p>
+                  A hardware-based FPS counter with on-screen display is incorporated to monitor real-time performance. Experimental implementation and validation using Xilinx Vivado demonstrate stable operation at a resolution of 320 × 240 pixels with a frame rate of approximately 30 FPS. Resource utilization remains low, requiring only a small percentage of the available FPGA logic resources, while timing analysis confirms successful timing closure with positive setup and hold margins.
+                </p>
+                <p>
+                  The developed system demonstrates that efficient, scalable, and deterministic real-time video processing can be achieved on a low-cost FPGA platform, making it suitable for embedded vision, surveillance, robotics, and educational applications.
                 </p>
               </div>
             </div>
@@ -1360,7 +1362,7 @@
                       </tr>
                       <tr>
                         <th scope="row">Stylized Filters</th>
-                        <td>Invert, posterize, polarize, and supplemental filter captures.</td>
+                        <td>Invert, posterize filter captures.</td>
                       </tr>
                     </tbody>
                   </table>
