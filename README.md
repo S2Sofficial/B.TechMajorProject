@@ -6,6 +6,8 @@ A hardware-only image-processing pipeline built for a Basys3 (Artix-7) FPGA that
 
 This repository implements a complete FPGA-based pipeline for acquiring live camera data (OV7670), transforming the pixel stream through a set of eight hardware filters, and presenting the processed image on a standard VGA monitor. The design emphasises clear signal flow, timing discipline, and reproducible visual results suitable for a final-year project demonstration.
 
+<img width="2560" height="1280" alt="Major Project Swaroop" src="https://github.com/user-attachments/assets/c3e5aa25-7309-4d8b-9a19-e50736574ad1" />
+
 ## Features
 
 - Acquisition: OV7670 configuration and RGB565 capture through the camera interface.
@@ -49,6 +51,7 @@ Photographs and demonstration videos showing the filter outputs are included und
 
 - Prepared by: Swaroop Kumar Yadav, B.Tech ECE (2022–2026)
 - Supervision: Dr. Yogendra Pratap Pundir, H.N.B. Garhwal University
+<img width="2607" height="1467" alt="1783519517940" src="https://github.com/user-attachments/assets/91285f7d-5769-4a6b-8874-bab5143583de" />
 
 ## License & Usage
 
