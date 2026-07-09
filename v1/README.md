@@ -31,4 +31,4 @@ The design is centered around `OV7670_top.v` and connects these blocks:
 4. Program the board using `OV7670_top.bit` if you just want to test the existing build.
 
 ## Notes
-This project is made by Swaroop Kumar Yadav
+This project is made by Swaroop Kumar Yadav 

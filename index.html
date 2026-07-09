@@ -4,9 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Real-Time Video Processing Pipeline - FPGA Final Year Project</title>
+  <link
+    rel="icon"
+    type="image/svg+xml"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23FAF9F5'/%3E%3Cpath d='M14 14h36v36H14z' fill='none' stroke='%23171614' stroke-width='3'/%3E%3Cpath d='M22 23h20M22 32h20M22 41h13' stroke='%236F5B33' stroke-width='3' stroke-linecap='square'/%3E%3Ccircle cx='49' cy='15' r='4' fill='%236F5B33'/%3E%3C/svg%3E"
+  />
   <meta
     name="description"
-    content="Interactive academic publication for a Basys3 Artix-7 FPGA real-time video processing pipeline using OV7670 input, dual-port BRAM buffering, eight image filters, and VGA output."
+    content="Interactive academic report for a Basys3 Artix-7 FPGA real-time video processing pipeline using OV7670 input, dual-port BRAM buffering, eight image filters, and VGA output."
   />
   <style>
     :root {
@@ -409,11 +414,17 @@
       font-family: var(--mono);
       font-size: .72rem;
       text-decoration: none;
+      transition: color .18s var(--ease);
+    }
+
+    .toc a:hover,
+    .toc a:focus-visible,
+    .toc a.is-active {
+      color: var(--ink);
     }
 
     .toc a:hover,
     .toc a:focus-visible {
-      color: var(--ink);
       text-decoration: underline;
       outline: none;
     }
@@ -1035,11 +1046,11 @@
             <button
               class="media-open"
               type="button"
-              data-src="RESULTS/Major Project Swaroop.png"
+              data-src="RESULTS/MajorProject.png"
               data-title="Figure 1. Project demonstration setup"
               aria-label="Open project demonstration setup image"
             >
-              <img src="RESULTS/Major Project Swaroop.png" alt="Project demonstration setup with FPGA and display output" />
+              <img src="RESULTS/MajorProject.png" alt="Project demonstration setup with FPGA and display output" />
             </button>
             <figcaption>
               <span class="fig-label">Figure 1.</span>
@@ -1064,7 +1075,7 @@
           <div class="quick-index" aria-label="Required document quick links">
             <a href="#architecture">Architecture</a>
             <a href="#results">Results</a>
-            <a href="https://github.com/S2Sofficial/B.TechMajorProject/tree/main/src" target="_blank" rel="noopener noreferrer">Code</a>
+            <a href="https://github.com/S2Sofficial/B.TechMajorProject" target="_blank" rel="noopener noreferrer">Code</a>
           </div>
         </div>
       </section>
@@ -1086,9 +1097,9 @@
 |CAM | --> |BRAM  |
 +----+     +--+---+
              |
-          +--v--+
-          |FILT |
-          +--+--+
+          +---v---+
+          |FILTER |
+          +---+---+
              |
           +--v--+
           | VGA |
@@ -1140,8 +1151,8 @@
                   <tr>
                     <th scope="row">Repository</th>
                     <td>
-                      <a href="https://github.com/S2Sofficial/B.TechMajorProject/tree/main/src" target="_blank" rel="noopener noreferrer">
-                        S2Sofficial/B.TechMajorProject/tree/main/src
+                      <a href="https://github.com/S2Sofficial/B.TechMajorProject/" target="_blank" rel="noopener noreferrer">
+                        S2Sofficial/B.TechMajorProject
                       </a>
                     </td>
                   </tr>
@@ -1238,7 +1249,7 @@
                   data-title="Figure 2. System architecture block diagram"
                   aria-label="Open full system architecture diagram"
                 >
-                  <img src="RESULTS/BLOCK DIAGRAM FINAL.jpg" alt="System architecture block diagram" />
+                  <img src="RESULTS/BLOCKDIAGRAMFINAL.jpg" alt="System architecture block diagram" />
                 </button>
                 <figcaption>
                   <span class="fig-label">Figure 2.</span>
@@ -1460,27 +1471,28 @@
                 the live behavior of the camera-to-display processing chain.
               </p>
 
-              
-                <div class="video-grid">
-                  <figure class="video-figure">
-                    <video controls preload="metadata">
+              <div class="video-grid">
+                <figure class="video-figure">
+                  <video controls preload="auto" playsinline poster="RESULTS/VideoProcessingCard.png">
                       <source src="RESULTS/Videos/ProjectDemo_1.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
                     <figcaption>
                       <span class="fig-label">Video 1.</span>
                       Live camera feed processing demonstration.
+                      <a href="RESULTS/Videos/ProjectDemo_1.mp4" target="_blank" rel="noopener noreferrer">Open video file</a>.
                     </figcaption>
                   </figure>
 
                   <figure class="video-figure">
-                    <video controls preload="metadata">
+                    <video controls preload="auto" playsinline poster="RESULTS/VideoProcessingCard.png">
                       <source src="RESULTS/Videos/ProjectDemo_2.mp4" type="video/mp4" />
                       Your browser does not support the video tag.
                     </video>
                     <figcaption>
                       <span class="fig-label">Video 2.</span>
                       Hardware filter bank output demonstration.
+                      <a href="RESULTS/Videos/ProjectDemo_2.mp4" target="_blank" rel="noopener noreferrer">Open video file</a>.
                     </figcaption>
                   </figure>
                 </div>
@@ -1585,11 +1597,11 @@
       </div>
       <div>
         <strong>Prepared By</strong>
-        <span>Swaroop Kumar Yadav, B.Tech ECE (2022-2026)</span>
+        <span>Swaroop Kumar Yadav</span>
       </div>
       <div>
-        <strong>Supervision</strong>
-        <span>Dr. Yogendra Pratap Pundir, H.N.B. Garhwal University</span>
+        <strong>Course</strong>
+        <span>B.Tech (Electronics and Communication Engineering)</span>
       </div>
     </div>
   </footer>
@@ -1654,6 +1666,34 @@
         openPreview(item.dataset.src, item.dataset.title);
       });
     });
+
+    const contentLinks = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+    const observedSections = contentLinks
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    function setActiveContentsLink(sectionId) {
+      contentLinks.forEach((link) => {
+        link.classList.toggle('is-active', link.getAttribute('href') === `#${sectionId}`);
+      });
+    }
+
+    if ('IntersectionObserver' in window && observedSections.length) {
+      const sectionObserver = new IntersectionObserver((entries) => {
+        const visibleEntry = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (visibleEntry) {
+          setActiveContentsLink(visibleEntry.target.id);
+        }
+      }, {
+        rootMargin: '-18% 0px -64% 0px',
+        threshold: [0.05, 0.18, 0.32]
+      });
+
+      observedSections.forEach((section) => sectionObserver.observe(section));
+    }
 
     zoomIn.addEventListener('click', () => setZoom(zoomLevel + 0.25));
     zoomOut.addEventListener('click', () => setZoom(zoomLevel - 0.25));
